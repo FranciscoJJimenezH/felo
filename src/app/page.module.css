@@ -1,0 +1,250 @@
+/* =============================================
+   LOADING SCREEN
+   ============================================= */
+.loadingScreen {
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.loadingText {
+  font-size: clamp(6rem, 25vw, 20rem);
+  font-weight: 900;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: 0.05em;
+  animation: flicker 0.15s infinite alternate;
+}
+
+.loadingTextGo {
+  font-size: clamp(8rem, 30vw, 25rem);
+  font-weight: 900;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: 0.05em;
+  animation: flicker 0.15s infinite alternate;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  70% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.fadeOut {
+  opacity: 0;
+}
+
+.fadeIn {
+  opacity: 1;
+  transition: opacity 1s ease-in;
+}
+/* =============================================
+   MAIN PAGE
+   ============================================= */
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: black;
+}
+
+.bgVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  filter: invert(1);
+}
+
+.bgDarken {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+.contentArea {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.contentArea > * {
+  pointer-events: auto;
+}
+
+.subtitle {
+  font-size: clamp(0.55rem, 1vw, 0.85rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.songImage {
+  margin: 0.2rem 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* DON'T GO — Metal Mania + gradiente azul */
+.dontgo {
+  font-family: var(--font-metal-mania), cursive;
+  font-size: clamp(3rem, 8vw, 120px);
+  font-weight: 400;
+  letter-spacing: -3px;
+  text-transform: uppercase;
+  margin: 0;
+  background: linear-gradient(
+    180deg,
+    #e8f4ff 0%,
+    #7cb8ff 15%,
+    #1a3a8a 30%,
+    #4da6ff 45%,
+    #0b1b3f 55%,
+    #3d8eff 65%,
+    #bde0ff 75%,
+    #1e5eff 85%,
+    #0b1b3f 100%
+  );
+  background-size: 100% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px #4da6ff) drop-shadow(0 0 20px #1e5eff)
+    drop-shadow(0 0 40px #0b3d91) drop-shadow(0 0 60px rgba(30, 94, 255, 0.5));
+  animation: chromeShift 3s ease-in-out infinite alternate;
+}
+
+@keyframes chromeShift {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
+}
+/* FELO — más claro */
+.feloName {
+  font-size: clamp(0.8rem, 1.8vw, 1.3rem);
+  font-weight: 500;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  margin: 0;
+  background: linear-gradient(90deg, #d0dce8, #ffffff, #d0dce8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Botón Spotify */
+.spotifyBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.3rem;
+  padding: 0.8rem 1.8rem;
+  background: #191414;
+  color: #1db954;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.spotifyBtn:hover {
+  background: #1db954;
+  color: white;
+}
+
+.spotifyBtn:hover .spotifyIcon {
+  fill: white;
+}
+
+.spotifyIcon {
+  width: 24px;
+  height: 24px;
+  fill: #1db954;
+  transition: fill 0.3s ease;
+}
+
+/* @soyfelo_ — transparente, sin borde, letra gorda blanca */
+.feloBtn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 1rem;
+  transition: opacity 0.3s ease;
+}
+
+.feloBtn:hover {
+  opacity: 0.7;
+}
+
+.tapText {
+  font-size: clamp(1rem, 3vw, 2rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin: 0 3rem;
+  text-align: center;
+  animation: pulse 1.5s ease-in-out infinite;
+  cursor: pointer;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
