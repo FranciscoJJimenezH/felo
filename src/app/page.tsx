@@ -50,6 +50,7 @@ export default function Home() {
   return (
     <>
       <audio ref={audioRef} src="/audio/song.wav" preload="auto" />
+
       {/* Header fijo — siempre visible */}
       <div
         className={`${styles.fixedHeader} ${phase === "done" ? styles.fadeIn : styles.fadeOut}`}
@@ -180,12 +181,12 @@ export default function Home() {
           <div className={styles.trackList}>
             {/* Fila 1 — Don't Go (ACTUAL) */}
             <div
-              className={`${styles.trackRow} ${styles.trackRowActive}`}
+              className={`${styles.trackRow}`}
               onClick={() => setExpandedRow(expandedRow === 0 ? null : 0)}
             >
               <span className={styles.trackIcon}>🐎</span>
               <span className={styles.trackName}>DON&apos;T GO</span>
-              <span className={styles.trackDate}>25 de febrero</span>
+              <span className={styles.trackDate}>25 FEBRERO</span>
               <span className={styles.trackNote}>La profecía</span>
               <span className={styles.trackIconEnd}>🏴</span>
             </div>
@@ -200,7 +201,7 @@ export default function Home() {
             >
               <span className={styles.trackIcon}>🌀</span>
               <span className={styles.trackName}>ESPIRAL</span>
-              <span className={styles.trackDate}>?? marzo</span>
+              <span className={styles.trackDate}>?? MARZO</span>
               <span className={styles.trackNote}>El ritual</span>
               <span className={styles.trackIconEnd}>⏳</span>
             </div>
@@ -220,7 +221,7 @@ export default function Home() {
                   <span className={styles.redactedInner}>XXXXXXXX</span>
                 </span>
               </span>
-              <span className={styles.trackDate}>?? abril</span>
+              <span className={styles.trackDate}>?? ABRIL</span>
               <span className={styles.trackNote}>El sacrificio</span>
               <span className={styles.trackIconEnd}>⏳</span>
             </div>
@@ -239,7 +240,7 @@ export default function Home() {
               <span className={styles.trackName}>
                 <span className={styles.redacted}>
                   <span className={styles.redactedInner}>XXXXXXXXX</span>
-                </span>{" "}
+                </span>
                 — Y0SHI
               </span>
               <span className={styles.trackDate}>?? ???</span>
@@ -264,6 +265,7 @@ export default function Home() {
             >
               <span className={styles.trackIcon}>✝️</span>
               <span className={styles.trackName}>
+                [ EP ] -
                 <span className={styles.redacted}>
                   <span className={styles.redactedInner}>XXXXXXXX</span>
                 </span>
