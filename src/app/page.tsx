@@ -170,7 +170,7 @@ export default function Home() {
             <p className={styles.feloName}>FELO</p>
 
             <a
-              href="https://open.spotify.com/artist/TU_ARTIST_ID"
+              href="https://recordu.lnk.to/Dont-go"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.spotifyBtn}
