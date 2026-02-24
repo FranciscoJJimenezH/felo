@@ -5,13 +5,14 @@ import Image from "next/image";
 import styles from "./page.module.css";
 
 const START_SECOND = 0;
-const END_SECOND = 8.8;
+const END_SECOND = 8.2;
 
 export default function Home() {
   const [phase, setPhase] = useState<"tap" | "dont" | "go" | "done">("tap");
   const [fadeIn, setFadeIn] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [expandedRow, setExpandedRow] = useState<number | null>(null);
 
   const handleStart = () => {
     if (audioRef.current) {
@@ -36,23 +37,6 @@ export default function Home() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        audio.pause();
-      } else if (phase !== "tap") {
-        audio.play().catch(() => {});
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () =>
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [phase]);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
     const handleTimeUpdate = () => {
       if (audio.currentTime >= END_SECOND) {
         audio.currentTime = START_SECOND;
@@ -62,11 +46,10 @@ export default function Home() {
     audio.addEventListener("timeupdate", handleTimeUpdate);
     return () => audio.removeEventListener("timeupdate", handleTimeUpdate);
   }, []);
-  const [expandedRow, setExpandedRow] = useState<number | null>(null);
 
   return (
     <>
-      <audio ref={audioRef} src="/audio/song.wav" preload="auto" />
+      <audio ref={audioRef} src="/audio/song.mp3" preload="auto" />
 
       {/* Header fijo — siempre visible */}
       <div
@@ -207,11 +190,17 @@ export default function Home() {
               <span className={styles.trackIcon}>🐎</span>
               <span className={styles.trackName}>DON&apos;T GO</span>
               <span className={styles.trackDate}>25 FEBRERO</span>
-              <span className={styles.trackNote}>La profecía</span>
+              <span className={styles.trackNote}>
+                &quot;Los comienzos son despedidas. un adios a una antigua forma
+                de vivir&quot;
+              </span>
               <span className={styles.trackIconEnd}>🏴</span>
             </div>
             {expandedRow === 0 && (
-              <div className={styles.expandedNote}>&quot;La profecía&quot;</div>
+              <div className={styles.expandedNote}>
+                &quot;Los comienzos son despedidas. un adios a una antigua forma
+                de vivir&quot;
+              </div>
             )}
 
             {/* Fila 2 — Espiral */}
@@ -222,11 +211,17 @@ export default function Home() {
               <span className={styles.trackIcon}>🌀</span>
               <span className={styles.trackName}>ESPIRAL</span>
               <span className={styles.trackDate}>?? MARZO</span>
-              <span className={styles.trackNote}>El ritual</span>
+              <span className={styles.trackNote}>
+                &quot;En la turbulencia recordamos que somos nuestro lugar
+                seguro&quot;
+              </span>
               <span className={styles.trackIconEnd}>⏳</span>
             </div>
             {expandedRow === 1 && (
-              <div className={styles.expandedNote}>&quot;El ritual&quot;</div>
+              <div className={styles.expandedNote}>
+                &quot;En la turbulencia recordamos que somos nuestro lugar
+                seguro&quot;
+              </div>
             )}
 
             {/* Fila 3 — Te quiero ███ */}
@@ -242,13 +237,11 @@ export default function Home() {
                 </span>
               </span>
               <span className={styles.trackDate}>?? ABRIL</span>
-              <span className={styles.trackNote}>El sacrificio</span>
+              <span className={styles.trackNote}>Comming soon</span>
               <span className={styles.trackIconEnd}>⏳</span>
             </div>
             {expandedRow === 2 && (
-              <div className={styles.expandedNote}>
-                &quot;El sacrificio&quot;
-              </div>
+              <div className={styles.expandedNote}>Comming soon</div>
             )}
 
             {/* Fila 4 — ███ - YOSHI */}
@@ -264,11 +257,11 @@ export default function Home() {
                 — Y0SHI
               </span>
               <span className={styles.trackDate}>?? ???</span>
-              <span className={styles.trackNote}>El mesías</span>
+              <span className={styles.trackNote}>Comming soon</span>
               <span className={styles.trackIconEnd}>⏳</span>
             </div>
             {expandedRow === 3 && (
-              <div className={styles.expandedNote}>&quot;El mesías&quot;</div>
+              <div className={styles.expandedNote}>Comming soon</div>
             )}
 
             {/* Separador vertical */}
@@ -292,14 +285,12 @@ export default function Home() {
               </span>
               <span className={styles.trackDate}>CONFIDENCIAL</span>
               <span className={`${styles.trackNote} ${styles.grandRelease}`}>
-                Gran lanzamiento
+                Lanzamiento especial
               </span>
               <span className={styles.trackIconEnd}>✝️</span>
             </div>
             {expandedRow === 4 && (
-              <div className={styles.expandedNote}>
-                &quot;Gran lanzamiento&quot;
-              </div>
+              <div className={styles.expandedNote}>Lanzamiento especial</div>
             )}
           </div>
         </div>
