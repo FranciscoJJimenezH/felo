@@ -36,6 +36,23 @@ export default function Home() {
     const audio = audioRef.current;
     if (!audio) return;
 
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        audio.pause();
+      } else if (phase !== "tap") {
+        audio.play().catch(() => {});
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [phase]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
     const handleTimeUpdate = () => {
       if (audio.currentTime >= END_SECOND) {
         audio.currentTime = START_SECOND;
