@@ -58,7 +58,7 @@ export default function Home() {
         <span className={styles.headerLeft}>FELO</span>
         <div className={styles.headerSocials}>
           <a
-            href="https://tiktok.com/@soyfelo_"
+            href="https://tiktok.com/@felitouuuu"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.headerSocialLink}
