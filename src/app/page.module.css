@@ -1,14 +1,37 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  overflow: hidden;
+}
+
+.pageWrapper {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+}
 /* =============================================
+
    LOADING SCREEN
    ============================================= */
 .loadingScreen {
-  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100vh;
   background: black;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  z-index: 10;
 }
 
 .loadingText {
@@ -61,24 +84,23 @@
   overflow: hidden;
   background: black;
 }
-
 .bgVideo {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: -5vh;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 110vh;
   object-fit: cover;
   z-index: 0;
   filter: invert(1);
 }
 
 .bgDarken {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: -5vh;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 110vh;
   z-index: 1;
   background: rgba(0, 0, 0, 0.25);
   pointer-events: none;
@@ -245,11 +267,18 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
   scroll-snap-type: y mandatory;
+  -ms-overflow-style: none;
+}
+
+.mainContent::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .fadeOut {
@@ -280,7 +309,7 @@
    ============================================= */
 .sectionOne {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -292,13 +321,14 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
   z-index: 20;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
   pointer-events: none;
+  width: auto;
 }
 
 .headerLeft {
@@ -341,7 +371,9 @@
    ============================================= */
 .sectionTwo {
   position: relative;
-  width: 100vw;
+  width: auto;
+  left: 0;
+  right: 0;
   height: 100vh;
   background: rgba(0, 0, 0, 0.9);
   scroll-snap-align: start;
@@ -549,7 +581,7 @@
 
 .scrollArrow {
   position: absolute;
-  bottom: 100px;
+  bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 5;
@@ -568,5 +600,11 @@
   50% {
     transform: translateX(-50%) translateY(8px);
     opacity: 1;
+  }
+}
+@media (max-width: 768px) {
+  .trackList {
+    max-width: 100%;
+    overflow: hidden;
   }
 }

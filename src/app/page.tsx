@@ -5,7 +5,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 
 const START_SECOND = 0;
-const END_SECOND = 8.2;
+const END_SECOND = 8.4;
 
 export default function Home() {
   const [phase, setPhase] = useState<"tap" | "dont" | "go" | "done">("tap");
@@ -13,18 +13,110 @@ export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
+  const isPausedRef = useRef(false);
+  const audioKilledRef = useRef(false);
+  const lastTimeRef = useRef(0);
+  const killReasonRef = useRef<"none" | "hidden">("none");
+
+  // Loop del audio
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      const audio = audioRef.current;
+      if (
+        audio &&
+        !isPausedRef.current &&
+        !audio.paused &&
+        audio.currentTime >= END_SECOND
+      ) {
+        audio.currentTime = START_SECOND;
+      }
+    }, 100);
+    return () => window.clearInterval(id);
+  }, []);
+
+  // Visibilidad — mute + pause + kill switch
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const hardStop = () => {
+      isPausedRef.current = true;
+      audioKilledRef.current = true;
+      lastTimeRef.current = audio.currentTime || 0;
+      audio.muted = true;
+      audio.pause();
+    };
+
+    const onVisibility = () => {
+      if (document.hidden) {
+        killReasonRef.current = "hidden";
+        hardStop();
+      }
+    };
+
+    const enforceNoPlay = () => {
+      if (document.hidden || audioKilledRef.current || isPausedRef.current) {
+        audio.muted = true;
+        audio.pause();
+      }
+    };
+
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("blur", hardStop);
+    window.addEventListener("pagehide", hardStop);
+    audio.addEventListener("play", enforceNoPlay);
+    audio.addEventListener("playing", enforceNoPlay);
+
+    if (document.hidden) hardStop();
+
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("blur", hardStop);
+      window.removeEventListener("pagehide", hardStop);
+      audio.removeEventListener("play", enforceNoPlay);
+      audio.removeEventListener("playing", enforceNoPlay);
+    };
+  }, []);
+
+  // Reanudar solo con interacción del usuario
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const resume = () => {
+      if (phase === "tap") return;
+      if (!audioKilledRef.current) return;
+      if (document.hidden) return;
+
+      audioKilledRef.current = false;
+      isPausedRef.current = false;
+      audio.currentTime = Math.max(0, lastTimeRef.current);
+      audio.muted = false;
+      audio.play().catch(() => {
+        audio.muted = true;
+        audio.pause();
+        audioKilledRef.current = true;
+        isPausedRef.current = true;
+      });
+    };
+
+    window.addEventListener("pointerdown", resume, { passive: true });
+    return () => window.removeEventListener("pointerdown", resume);
+  }, [phase]);
 
   const handleStart = () => {
+    isPausedRef.current = false;
+    audioKilledRef.current = false;
     if (audioRef.current) {
+      audioRef.current.src = "/audio/song.mp3";
+      audioRef.current.muted = false;
       audioRef.current.currentTime = START_SECOND;
       audioRef.current.play().catch(() => {});
     }
     setPhase("dont");
-
     setTimeout(() => setPhase("go"), 500);
     setTimeout(() => {
       setPhase("done");
-      // Reiniciar video desde el segundo 0
       if (videoRef.current) {
         videoRef.current.currentTime = 0;
         videoRef.current.playbackRate = 1.5;
@@ -32,24 +124,21 @@ export default function Home() {
       setTimeout(() => setFadeIn(true), 50);
     }, 1000);
   };
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const handleTimeUpdate = () => {
-      if (audio.currentTime >= END_SECOND) {
-        audio.currentTime = START_SECOND;
-      }
-    };
-
-    audio.addEventListener("timeupdate", handleTimeUpdate);
-    return () => audio.removeEventListener("timeupdate", handleTimeUpdate);
-  }, []);
-
   return (
-    <>
-      <audio ref={audioRef} src="/audio/song.mp3" preload="auto" />
+    <div className={styles.pageWrapper}>
+      {/* Video fijo detrás de AMBAS secciones */}
+      <video
+        ref={videoRef}
+        className={styles.bgVideo}
+        autoPlay
+        muted
+        loop
+        playsInline
+      >
+        <source src="/videos/welcome.mp4" type="video/mp4" />
+      </video>
+      <div className={styles.bgDarken}></div>
+      <audio ref={audioRef} preload="auto" />
 
       {/* Header fijo — siempre visible */}
       <div
@@ -92,39 +181,12 @@ export default function Home() {
           </a>
         </div>
       </div>
-      <div
-        className={`${styles.mainContent} ${phase === "done" ? (fadeIn ? styles.fadeIn : styles.fadeOut) : styles.fadeOut}`}
-      >
-        {/* Video fijo detrás de AMBAS secciones */}
-        <video
-          ref={videoRef}
-          className={styles.bgVideo}
-          autoPlay
-          muted
-          loop
-          playsInline
-        >
-          <source src="/videos/welcome.mp4" type="video/mp4" />
-        </video>
-        <div className={styles.bgDarken}></div>
 
-        {/* SECCIÓN 1 */}
-        <div className={styles.sectionOne}>
-          <div className={styles.contentArea}>
-            {/* ... todo el contenido de sección 1 igual ... */}
-          </div>
-        </div>
-
-        {/* SECCIÓN 2 */}
-        <div className={styles.sectionTwo}>{/* ... todo igual ... */}</div>
-      </div>
       <div
         className={`${styles.mainContent} ${phase === "done" ? (fadeIn ? styles.fadeIn : styles.fadeOut) : styles.fadeOut}`}
       >
         {/* SECCIÓN 1 — Video */}
         <div className={styles.sectionOne}>
-          <div className={styles.bgDarken}></div>
-
           <div className={styles.contentArea}>
             <p className={styles.subtitle}>De Bogotá para Colombia</p>
 
@@ -311,6 +373,6 @@ export default function Home() {
           <h1 className={styles.loadingTextGo}>GO</h1>
         </div>
       )}
-    </>
+    </div>
   );
 }
