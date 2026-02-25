@@ -318,14 +318,14 @@ export default function Home() {
               <span className={styles.trackName}>DON&apos;T GO</span>
               <span className={styles.trackDate}>25 FEBRERO</span>
               <span className={styles.trackNote}>
-                &quot;Los comienzos son despedidas. un adios a una antigua forma
+                &quot;Los comienzos son despedidas. Un adios a una antigua forma
                 de vivir&quot;
               </span>
               <span className={styles.trackIconEnd}>🏴</span>
             </div>
             {expandedRow === 0 && (
               <div className={styles.expandedNote}>
-                &quot;Los comienzos son despedidas. un adios a una antigua forma
+                &quot;Los comienzos son despedidas. Un adios a una antigua forma
                 de vivir&quot;
               </div>
             )}
