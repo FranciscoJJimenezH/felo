@@ -17,6 +17,7 @@ export default function Home() {
   const audioKilledRef = useRef(false);
   const lastTimeRef = useRef(0);
   const killReasonRef = useRef<"none" | "hidden">("none");
+  const [isMuted, setIsMuted] = useState(false);
 
   // Loop del audio
   useEffect(() => {
@@ -45,6 +46,7 @@ export default function Home() {
       lastTimeRef.current = audio.currentTime || 0;
       audio.muted = true;
       audio.pause();
+      setIsMuted(true);
     };
 
     const onVisibility = () => {
@@ -78,30 +80,11 @@ export default function Home() {
     };
   }, []);
 
-  // Reanudar solo con interacción del usuario
+  // Reanudar SOLO con botón de volumen
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-
-    const resume = () => {
-      if (phase === "tap") return;
-      if (!audioKilledRef.current) return;
-      if (document.hidden) return;
-
-      audioKilledRef.current = false;
-      isPausedRef.current = false;
-      audio.currentTime = Math.max(0, lastTimeRef.current);
-      audio.muted = false;
-      audio.play().catch(() => {
-        audio.muted = true;
-        audio.pause();
-        audioKilledRef.current = true;
-        isPausedRef.current = true;
-      });
-    };
-
-    window.addEventListener("pointerdown", resume, { passive: true });
-    return () => window.removeEventListener("pointerdown", resume);
+    // Ya no hay pointerdown global
   }, [phase]);
 
   const handleStart = () => {
@@ -146,6 +129,73 @@ export default function Home() {
       >
         <span className={styles.headerLeft}>FELO</span>
         <div className={styles.headerSocials}>
+          <button
+            className={styles.volumeBtn}
+            onClick={(e) => {
+              e.stopPropagation();
+              const audio = audioRef.current;
+              if (!audio) return;
+
+              if (audioKilledRef.current) {
+                // Volvió de estar afuera — reanudar
+                audioKilledRef.current = false;
+                isPausedRef.current = false;
+                audio.currentTime = Math.max(0, lastTimeRef.current);
+                audio.muted = false;
+                setIsMuted(false);
+                audio.play().catch(() => {});
+                return;
+              }
+
+              if (isMuted) {
+                audio.muted = false;
+                setIsMuted(false);
+                if (audio.paused && phase !== "tap") {
+                  isPausedRef.current = false;
+                  audio.play().catch(() => {});
+                }
+              } else {
+                audio.muted = true;
+                setIsMuted(true);
+              }
+            }}
+            style={{ pointerEvents: "auto" }}
+          >
+            {isMuted || audioKilledRef.current ? (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  fill="none"
+                />
+              </svg>
+            ) : (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M11 5L6 9H2v6h4l5 4V5z" fill="white" />
+                <path
+                  d="M15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  fill="none"
+                />
+              </svg>
+            )}
+          </button>
           <a
             href="https://tiktok.com/@felitouuuu"
             target="_blank"

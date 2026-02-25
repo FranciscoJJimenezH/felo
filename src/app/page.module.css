@@ -608,3 +608,18 @@ body {
     overflow: hidden;
   }
 }
+.volumeBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  transition: opacity 0.3s;
+}
+
+.volumeBtn:hover {
+  opacity: 0.6;
+}
