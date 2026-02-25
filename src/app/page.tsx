@@ -19,7 +19,6 @@ export default function Home() {
   const killReasonRef = useRef<"none" | "hidden">("none");
   const [isMuted, setIsMuted] = useState(false);
 
-  // Loop del audio
   useEffect(() => {
     const id = window.setInterval(() => {
       const audio = audioRef.current;
@@ -35,7 +34,6 @@ export default function Home() {
     return () => window.clearInterval(id);
   }, []);
 
-  // Visibilidad — mute + pause + kill switch
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -80,11 +78,9 @@ export default function Home() {
     };
   }, []);
 
-  // Reanudar SOLO con botón de volumen
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    // Ya no hay pointerdown global
   }, [phase]);
 
   const handleStart = () => {
@@ -109,7 +105,6 @@ export default function Home() {
   };
   return (
     <div className={styles.pageWrapper}>
-      {/* Video fijo detrás de AMBAS secciones */}
       <video
         ref={videoRef}
         className={styles.bgVideo}
@@ -123,7 +118,6 @@ export default function Home() {
       <div className={styles.bgDarken}></div>
       <audio ref={audioRef} preload="auto" />
 
-      {/* Header fijo — siempre visible */}
       <div
         className={`${styles.fixedHeader} ${phase === "done" ? styles.fadeIn : styles.fadeOut}`}
       >
@@ -137,7 +131,6 @@ export default function Home() {
               if (!audio) return;
 
               if (audioKilledRef.current) {
-                // Volvió de estar afuera — reanudar
                 audioKilledRef.current = false;
                 isPausedRef.current = false;
                 audio.currentTime = Math.max(0, lastTimeRef.current);
@@ -235,7 +228,6 @@ export default function Home() {
       <div
         className={`${styles.mainContent} ${phase === "done" ? (fadeIn ? styles.fadeIn : styles.fadeOut) : styles.fadeOut}`}
       >
-        {/* SECCIÓN 1 — Video */}
         <div className={styles.sectionOne}>
           <div className={styles.contentArea}>
             <p className={styles.subtitle}>De Bogotá para Colombia</p>
@@ -299,7 +291,6 @@ export default function Home() {
             <span>↓</span>
           </div>
         </div>
-        {/* SECCIÓN 2 — Interregno */}
         <div className={styles.sectionTwo}>
           <div className={styles.sectionTwoHeader}>
             <h2 className={styles.sectionTwoTitle}>INTERREGNO</h2>
@@ -309,7 +300,6 @@ export default function Home() {
           </div>
 
           <div className={styles.trackList}>
-            {/* Fila 1 — Don't Go (ACTUAL) */}
             <div
               className={`${styles.trackRow}`}
               onClick={() => setExpandedRow(expandedRow === 0 ? null : 0)}
@@ -330,7 +320,6 @@ export default function Home() {
               </div>
             )}
 
-            {/* Fila 2 — Espiral */}
             <div
               className={styles.trackRow}
               onClick={() => setExpandedRow(expandedRow === 1 ? null : 1)}
@@ -351,7 +340,6 @@ export default function Home() {
               </div>
             )}
 
-            {/* Fila 3 — Te quiero ███ */}
             <div
               className={styles.trackRow}
               onClick={() => setExpandedRow(expandedRow === 2 ? null : 2)}
@@ -371,7 +359,6 @@ export default function Home() {
               <div className={styles.expandedNote}>Comming soon</div>
             )}
 
-            {/* Fila 4 — ███ - YOSHI */}
             <div
               className={styles.trackRow}
               onClick={() => setExpandedRow(expandedRow === 3 ? null : 3)}
@@ -391,14 +378,12 @@ export default function Home() {
               <div className={styles.expandedNote}>Comming soon</div>
             )}
 
-            {/* Separador vertical */}
             <div className={styles.dotSeparator}>
               <span>•</span>
               <span>•</span>
               <span>•</span>
             </div>
 
-            {/* Fila 5 — Especial */}
             <div
               className={`${styles.trackRowSpecial}`}
               onClick={() => setExpandedRow(expandedRow === 4 ? null : 4)}
@@ -422,7 +407,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {/* Loading screens — encima de todo */}
       {phase === "tap" && (
         <div className={styles.loadingScreen} onClick={handleStart}>
           <p className={styles.tapText}>▶ Bienvenido al nuevo comienzo</p>

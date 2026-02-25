@@ -16,10 +16,7 @@ body {
   left: 0;
   height: 100vh;
 }
-/* =============================================
 
-   LOADING SCREEN
-   ============================================= */
 .loadingScreen {
   position: fixed;
   top: 0;
@@ -74,9 +71,6 @@ body {
   }
 }
 
-/* =============================================
-   MAIN PAGE
-   ============================================= */
 .container {
   position: relative;
   width: 100vw;
@@ -141,7 +135,6 @@ body {
   overflow: hidden;
 }
 
-/* DON'T GO — Metal Mania + gradiente azul */
 .dontgo {
   font-family: var(--font-metal-mania), cursive;
   font-size: clamp(3rem, 8vw, 120px);
@@ -178,7 +171,6 @@ body {
     background-position: 0% 100%;
   }
 }
-/* FELO — más claro */
 .feloName {
   font-size: clamp(0.8rem, 1.8vw, 1.3rem);
   font-weight: 500;
@@ -207,8 +199,9 @@ body {
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  width: 180px;
+  white-space: nowrap;
   justify-content: center;
+  width: 200px;
 }
 
 .spotifyBtn:hover {
@@ -241,8 +234,10 @@ body {
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  width: 180px;
+  white-space: nowrap;
   justify-content: center;
+
+  width: 200px;
 }
 
 .appleMusicBtn:hover {
@@ -255,7 +250,6 @@ body {
   fill: white;
 }
 
-/* @soyfelo_ — transparente, sin borde, letra gorda blanca */
 .feloBtn {
   background: transparent;
   border: none;
@@ -335,9 +329,6 @@ body {
   z-index: 10;
 }
 
-/* =============================================
-   SECCIÓN 1 — Video
-   ============================================= */
 .sectionOne {
   position: relative;
   width: 100%;
@@ -345,9 +336,7 @@ body {
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
-/* =============================================
-   HEADER FIJO
-   ============================================= */
+
 .fixedHeader {
   position: fixed;
   top: 0;
@@ -397,9 +386,6 @@ body {
   flex-shrink: 0;
 }
 
-/* =============================================
-   SECCIÓN 2 — Interregno
-   ============================================= */
 .sectionTwo {
   position: relative;
   width: auto;
@@ -444,7 +430,6 @@ body {
   font-style: italic;
 }
 
-/* Tabla / Lista */
 .trackList {
   width: 100%;
   max-width: 750px;
@@ -470,7 +455,6 @@ body {
   background: rgba(255, 255, 255, 0.03);
 }
 
-/* Fila activa — fondo azul */
 .trackRowActive {
   background: rgba(30, 94, 255, 0.15);
 }
@@ -514,7 +498,6 @@ body {
   text-align: center;
 }
 
-/* Rectángulo "confidencial" — efecto marcador */
 .redacted {
   position: relative;
   display: inline-block;
@@ -523,7 +506,6 @@ body {
   user-select: none;
 }
 
-/* Separador tres puntos VERTICALES */
 .dotSeparator {
   display: flex;
   flex-direction: column;
@@ -534,7 +516,6 @@ body {
   padding: 0.6rem 0;
 }
 
-/* Fila especial */
 .trackRowSpecial {
   display: grid;
   grid-template-columns: 2.5rem 1fr 7rem 1fr 2.5rem;
@@ -556,21 +537,16 @@ body {
   font-style: normal;
 }
 
-/* Nota expandida (móvil) — oculta en desktop */
 .expandedNote {
   display: none;
 }
 
-/* =============================================
-   RESPONSIVE — MÓVIL
-   ============================================= */
 @media (max-width: 768px) {
   .trackRow,
   .trackRowSpecial {
     grid-template-columns: 2rem 1fr auto 2rem;
   }
 
-  /* Ocultar columna de notas en móvil */
   .trackNote {
     display: none;
   }
@@ -580,7 +556,6 @@ body {
     white-space: normal;
   }
 
-  /* Mostrar nota expandida en móvil */
   .expandedNote {
     display: block;
     padding: 0.4rem 0.5rem 0.4rem 2.5rem;
