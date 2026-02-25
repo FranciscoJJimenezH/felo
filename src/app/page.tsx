@@ -352,11 +352,11 @@ export default function Home() {
                 </span>
               </span>
               <span className={styles.trackDate}>?? ABRIL</span>
-              <span className={styles.trackNote}>Comming soon</span>
+              <span className={styles.trackNote}>Coming soon</span>
               <span className={styles.trackIconEnd}>⏳</span>
             </div>
             {expandedRow === 2 && (
-              <div className={styles.expandedNote}>Comming soon</div>
+              <div className={styles.expandedNote}>Coming soon</div>
             )}
 
             <div
@@ -371,11 +371,11 @@ export default function Home() {
                 — Y0SHI
               </span>
               <span className={styles.trackDate}>?? ???</span>
-              <span className={styles.trackNote}>Comming soon</span>
+              <span className={styles.trackNote}>Coming soon</span>
               <span className={styles.trackIconEnd}>⏳</span>
             </div>
             {expandedRow === 3 && (
-              <div className={styles.expandedNote}>Comming soon</div>
+              <div className={styles.expandedNote}>Coming soon</div>
             )}
 
             <div className={styles.dotSeparator}>
